@@ -16,6 +16,8 @@ class Firebase {
   constructor() {
     app.initializeApp(config);
     this.auth = app.auth();
+    this.googleProvider = new app.auth.GoogleAuthProvider();
+    this.facebookProvider = new app.auth.FacebookAuthProvider();
   }
 
   /* AUTH API - AUTH WITH EMAIL & PASSWORD */
@@ -31,6 +33,20 @@ class Firebase {
 
   doPasswordUpdate = (password) =>
     this.auth.currentUser.updatePassword(password);
+
+  /* AUTH API - AUTH WITH GOOGLE */
+  doSignInWithGoogle = () => {
+    this.auth
+      .signInWithPopup(this.googleProvider)
+      .then((response) => console.log(response));
+  };
+
+  /* AUTH API - AUTH WITH FACEBOOK */
+  doSignInWithFacebook = () => {
+    this.auth
+      .signInWithPopup(this.facebookProvider)
+      .then((response) => console.log(response));
+  };
 }
 
 export default Firebase;

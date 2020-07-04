@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 
 import routes from "./routes";
+import InitialRoute from "./initialRoute";
 import ProtectedRoute from "./protectedRoute";
 
 const Router = () => (
@@ -9,7 +10,11 @@ const Router = () => (
     {routes.map((route) => {
       if (route.routeType === "public") {
         return (
-          <Route path={route.path} component={route.component} key={route.id} />
+          <InitialRoute
+            path={route.path}
+            component={route.component}
+            key={route.id}
+          />
         );
       }
       if (route.routeType === "protected") {
@@ -21,6 +26,14 @@ const Router = () => (
           />
         );
       }
+      return (
+        <Route
+          exact
+          path={route.path}
+          component={route.component}
+          key={route.id}
+        />
+      );
     })}
     <Route exact path="/">
       <Redirect to="/dashboard" />

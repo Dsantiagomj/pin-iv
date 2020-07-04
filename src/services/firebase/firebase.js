@@ -35,17 +35,23 @@ class Firebase {
     this.auth.currentUser.updatePassword(password);
 
   /* AUTH API - AUTH WITH GOOGLE */
-  doSignInWithGoogle = () => {
-    this.auth
-      .signInWithPopup(this.googleProvider)
-      .then((response) => console.log(response));
+  doSignInWithGoogle = (setToken, setUser, history) => {
+    this.auth.signInWithPopup(this.googleProvider).then((response) => {
+      const userData = JSON.stringify(response);
+      setToken(userData);
+      setUser(userData);
+      if (history) history.replace("/");
+    });
   };
 
   /* AUTH API - AUTH WITH FACEBOOK */
-  doSignInWithFacebook = () => {
-    this.auth
-      .signInWithPopup(this.facebookProvider)
-      .then((response) => console.log(response));
+  doSignInWithFacebook = (setToken, setUser, history) => {
+    this.auth.signInWithPopup(this.facebookProvider).then((response) => {
+      const userData = JSON.stringify(response);
+      setToken(userData);
+      setUser(userData);
+      if (history) history.replace("/");
+    });
   };
 }
 

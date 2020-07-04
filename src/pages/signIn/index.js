@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import FirebaseContext from "../../services/contexts/useFirebaseContext";
 import Form from "./form";
 
-const SignInComponent = () => {
+const SignInComponent = ({ history }) => {
   const Firebase = useContext(FirebaseContext);
 
   const handleSubmit = async (email, password) => {

@@ -2,8 +2,9 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
 import { UserConsumer } from "../contexts/useUserContext";
+import InitialPage from "../../templates/initialPages";
 
-const InitialRoute = ({ component: Component, path }) => (
+const InitialRoute = ({ component, path }) => (
   <Route
     path={path}
     exact
@@ -12,7 +13,7 @@ const InitialRoute = ({ component: Component, path }) => (
       <UserConsumer>
         {({ user }) => {
           if (!user) {
-            return <Component props={props} />;
+            return <InitialPage props={props} component={component} />;
           }
           return <Redirect to={props.history.goBack() || "/"} />;
         }}

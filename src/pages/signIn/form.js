@@ -1,11 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Formik, Form } from "formik";
+import styled from "styled-components";
 
-const SignInForm = ({
-  handleSubmit,
-  handleGoogleSignIn,
-  handleFacebookSignIn,
-}) => {
+import { ContainedButton } from "../../components/buttons";
+
+import { EmailInput, PasswordInput } from "../../components/input";
+
+const Wrapper = styled.div`
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  width: 100%;
+`;
+
+const InputWrapper = styled.div`
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+`;
+
+const SignInForm = ({ handleSubmit }) => {
+  const [passwordState, setpasswordState] = useState("password");
+
   const onSubmit = (values) => {
     handleSubmit(values.email, values.password);
   };
@@ -21,38 +40,24 @@ const SignInForm = ({
       }}
     >
       {(formik) => (
-        <>
-          <Form>
-            <label htmlFor="email"> Email </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              onChange={formik.handleChange}
-              value={formik.values.email}
-            />
+        <Form style={{ width: "100%" }}>
+          <Wrapper>
+            <InputWrapper>
+              <EmailInput
+                onChange={formik.handleChange}
+                value={formik.values.email}
+              />
+              <PasswordInput
+                passwordType={passwordState}
+                onChange={formik.handleChange}
+                value={formik.values.password}
+              />
+            </InputWrapper>
+            <Link to="/">Olvide mi contraseña</Link>
 
-            <label> Password </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              onChange={formik.handleChange}
-              value={formik.values.password}
-            />
-
-            <button type="submit">Submit</button>
-          </Form>
-          <button type="submit" onClick={(event) => handleGoogleSignIn(event)}>
-            Sign in with google
-          </button>
-          <button
-            type="submit"
-            onClick={(event) => handleFacebookSignIn(event)}
-          >
-            Sign in with facebook
-          </button>
-        </>
+            <ContainedButton type="submit">Iniciar sesión</ContainedButton>
+          </Wrapper>
+        </Form>
       )}
     </Formik>
   );

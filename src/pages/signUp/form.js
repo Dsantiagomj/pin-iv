@@ -1,7 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form } from "formik";
+import styled from "styled-components";
+
+import { ContainedButton } from "../../components/buttons";
+
+import { TextInput, EmailInput, PasswordInput } from "../../components/input";
+
+const Wrapper = styled.div`
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  width: 100%;
+`;
+
+const InputWrapper = styled.div`
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+`;
 
 const SignUpForm = ({ handleSubmit }) => {
+  const [passwordState, setpasswordState] = useState("password");
   const onSubmit = (values) => {
     handleSubmit(values.email, values.password);
   };
@@ -9,32 +30,42 @@ const SignUpForm = ({ handleSubmit }) => {
   return (
     <Formik
       initialValues={{
+        name: "",
         email: "",
         password: "",
+        confirmPassword: "",
       }}
       onSubmit={(values) => onSubmit(values)}
     >
       {(formik) => (
         <Form>
-          <label htmlFor="email"> Email </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            onChange={formik.handleChange}
-            value={formik.values.email}
-          />
+          <Wrapper>
+            <InputWrapper>
+              <TextInput
+                text="name"
+                placeholder="Nombre completo"
+                onChange={formik.handleChange}
+                value={formik.values.name}
+              />
+              <EmailInput
+                onChange={formik.handleChange}
+                value={formik.values.email}
+              />
+              <PasswordInput
+                passwordType={passwordState}
+                onChange={formik.handleChange}
+                value={formik.values.password}
+              />
+              <PasswordInput
+                isConfirmPassword={true}
+                passwordType={passwordState}
+                onChange={formik.handleChange}
+                value={formik.values.password}
+              />
+            </InputWrapper>
 
-          <label> Password </label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            onChange={formik.handleChange}
-            value={formik.values.password}
-          />
-
-          <button type="submit">Submit</button>
+            <ContainedButton type="submit">Crear cuenta</ContainedButton>
+          </Wrapper>
         </Form>
       )}
     </Formik>

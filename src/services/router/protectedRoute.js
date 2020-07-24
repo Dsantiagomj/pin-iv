@@ -3,7 +3,9 @@ import { Route, Redirect } from "react-router-dom";
 
 import { UserConsumer } from "../contexts/useUserContext";
 
-const ProtectedRoute = ({ component: Component, path }) => (
+import Dashboard from "../../templates/dashboard";
+
+const ProtectedRoute = ({ component, path }) => (
   <Route
     path={path}
     exact
@@ -12,7 +14,7 @@ const ProtectedRoute = ({ component: Component, path }) => (
       <UserConsumer>
         {({ user }) => {
           if (user) {
-            return <Component props={props} />;
+            return <Dashboard props={props} component={component} />;
           }
           return <Redirect to="/signin" />;
         }}

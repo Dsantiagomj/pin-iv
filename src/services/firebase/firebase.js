@@ -36,22 +36,28 @@ class Firebase {
 
   /* AUTH API - AUTH WITH GOOGLE */
   doSignInWithGoogle = (setToken, setUser, history) => {
-    this.auth.signInWithPopup(this.googleProvider).then((response) => {
-      const userData = JSON.stringify(response);
-      setToken(userData);
-      setUser(userData);
-      if (history) history.replace("/");
-    });
+    this.auth
+      .signInWithPopup(this.googleProvider)
+      .then((response) => {
+        const userData = JSON.stringify(response);
+        setToken(userData);
+        setUser(userData);
+        if (history) history.replace("/");
+      })
+      .catch((error) => console.log(error));
   };
 
   /* AUTH API - AUTH WITH FACEBOOK */
   doSignInWithFacebook = (setToken, setUser, history) => {
-    this.auth.signInWithPopup(this.facebookProvider).then((response) => {
-      const userData = JSON.stringify(response);
-      setToken(userData);
-      setUser(userData);
-      if (history) history.replace("/");
-    });
+    this.auth
+      .signInWithPopup(this.facebookProvider)
+      .then((response) => {
+        const userData = JSON.stringify(response);
+        setToken(userData);
+        setUser(userData);
+        if (history) history.replace("/");
+      })
+      .catch((error) => console.log(error));
   };
 }
 

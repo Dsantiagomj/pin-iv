@@ -12,6 +12,7 @@ import Form from "./form";
 import Divider from "../../components/divider";
 import { OutlinedButton } from "../../components/buttons";
 import { TitleText, ParagraphText } from "../../components/typography";
+import Logo from "../../components/logo";
 
 const ContentWrapper = styled.div`
   align-items: center;
@@ -69,7 +70,9 @@ const SignInComponent = ({ history }) => {
 
   return (
     <ContentWrapper>
-      <ParagraphText>LOGO</ParagraphText>
+      <ParagraphText>
+        <Logo type="black" height="90px" />
+      </ParagraphText>
       <TitleText>Lee, comparte y debate lo que sucede ahora mismo</TitleText>
 
       <OutlinedButton onClick={handleGoogleSignIn} type="submit">

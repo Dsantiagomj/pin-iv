@@ -6,6 +6,8 @@ import { FiLogOut } from "react-icons/fi";
 
 import UserContext from "../services/contexts/useUserContext";
 
+import Logo from "../components/logo";
+
 const ContentWrapper = styled.div`
   height: 100vh;
   overflow: scroll;
@@ -19,7 +21,7 @@ const Header = styled.div`
   display: flex;
   height: 5rem;
   justify-content: space-between;
-  margin-bottom: 5rem;
+  margin-bottom: 0rem;
   overflow: hidden;
   padding: 0 1rem;
   width: 100%;
@@ -63,7 +65,9 @@ const Dashboard = ({ component: Component, props }) => {
   return (
     <ContentWrapper>
       <Header>
-        <AppInfo>LOGO</AppInfo>
+        <AppInfo>
+          <Logo type="black" height="40px" />
+        </AppInfo>
         <UserInfo>
           <UserImage src={userData.photoURL} alt="profile" loading="lazy" />
           <UserText>{userData.displayName}</UserText>

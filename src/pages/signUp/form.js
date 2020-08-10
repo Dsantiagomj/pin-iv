@@ -60,7 +60,7 @@ const SignUpForm = ({ handleSubmit }) => {
                 isConfirmPassword={true}
                 passwordType={passwordState}
                 onChange={formik.handleChange}
-                value={formik.values.password}
+                value={formik.values.confirmPassword}
               />
             </InputWrapper>
 

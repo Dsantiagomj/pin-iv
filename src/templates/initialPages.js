@@ -28,7 +28,7 @@ const InitialPage = ({ component: Component, ...props }) => {
     <ContentWrapper>
       <ContentItem lgOnly={true} />
       <ContentItem>
-        <Component props={props} />
+        <Component {...props} />
       </ContentItem>
     </ContentWrapper>
   );

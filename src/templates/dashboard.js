@@ -78,7 +78,7 @@ const Dashboard = ({ component: Component, props }) => {
           </Link>
         </UserInfo>
       </Header>
-      <Component props={props} />
+      <Component {...props} />
     </ContentWrapper>
   );
 };

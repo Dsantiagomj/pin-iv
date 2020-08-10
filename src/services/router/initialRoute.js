@@ -13,9 +13,9 @@ const InitialRoute = ({ component, path }) => (
       <UserConsumer>
         {({ user }) => {
           if (!user) {
-            return <InitialPage props={props} component={component} />;
+            return <InitialPage {...props} component={component} />;
           }
-          return <Redirect to={props.history.goBack() || "/"} />;
+          return <Redirect to="/" />;
         }}
       </UserConsumer>
     )}

@@ -1,91 +1,5 @@
-// import React, { useContext } from "react";
-// import { Link } from "react-router-dom";
+import React,  { useContext } from 'react';
 
-// import styled from "styled-components";
-// import { FiLogOut } from "react-icons/fi";
-
-// import UserContext from "../services/contexts/useUserContext";
-
-
-
-// const ContentWrapper = styled.div`
-//   height: 100vh;
-//   overflow: scroll;
-//   width: 100vw;
-// `;
-
-// const Header = styled.div`
-//   align-items: center;
-//   background: white;
-//   border-bottom: solid 1px #eceff2;
-//   display: flex;
-//   height: 5rem;
-//   justify-content: space-between;
-//   margin-bottom: 0rem;
-//   overflow: hidden;
-//   padding: 0 1rem;
-//   width: 100%;
-//   @media (min-width: 768px) {
-//     padding: 0 5rem;
-//   }
-// `;
-
-// const AppInfo = styled.div``;
-// const UserInfo = styled.div`
-//   align-items: center;
-//   display: flex;
-// `;
-// const UserImage = styled.img`
-//   border-radius: 50%;
-//   height: 50px;
-//   margin-top: 1rem;
-//   width 50px;
-// `;
-// const UserText = styled.span`
-//   font-size: 0.75rem;
-//   font-weight: bold;
-//   margin-left: 1rem;
-// `;
-
-// const LogOut = styled.div`
-//   color: red;
-//   margin-left: 1rem;
-//   &:hover {
-//     color: darkred;
-//   }
-//   @media (min-width: 768px) {
-//     margin-left: 5rem;
-//   }
-// `;
-
-// const Dashboard = ({ component: Component, props }) => {
-//   const { user } = useContext(UserContext);
-//   const { user: userData } = JSON.parse(user);
-
-//   return (
-//     <ContentWrapper>
-//       <Header>
-//         <AppInfo>
-//           <Logo type="black" height="40px" />
-//         </AppInfo>
-//         <UserInfo>
-//           <UserImage src={userData.photoURL} alt="profile" loading="lazy" />
-//           <UserText>{userData.displayName}</UserText>
-//           <Link to="/signout">
-//             <LogOut>
-//               <FiLogOut />
-//             </LogOut>
-//           </Link>
-//         </UserInfo>
-//       </Header>
-//       <Component {...props} />
-//     </ContentWrapper>
-//   );
-// };
-
-// export default Dashboard;
-
-import React from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -102,10 +16,10 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import LogoutIcon from "@material-ui/icons/ExitToApp";
 
 import Logo from "../components/logo";
+import UserContext from "../services/contexts/useUserContext";
 
 const drawerWidth = 240;
 
@@ -114,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
   appBar: {
+    backgroundColor: "#ffffff",
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -148,6 +63,13 @@ const useStyles = makeStyles((theme) => ({
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
   },
+  drawerList: {
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
+    justifyContent: "flex-end",
+    paddingBottom: "1rem",
+  },
   content: {
     flexGrow: 1,
     padding: theme.spacing(0),
@@ -164,9 +86,18 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginLeft: 0,
   },
+  userPhoto: {
+    borderRadius: "50%",
+    height: "50px",
+    width: "50px",
+  },
 }));
 
-export default function PersistentDrawerLeft({component: Component, props}) {
+export default function PersistentDrawerLeft({component: Component, ...props}) {
+
+    const { user } = useContext(UserContext);
+  const { user: userData } = JSON.parse(user);
+
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -179,6 +110,17 @@ export default function PersistentDrawerLeft({component: Component, props}) {
     setOpen(false);
   };
 
+  const handleLogOut = () => {
+    props.history.replace("/signout");
+  }
+
+  const handleName = (name) => {
+    const splitedName = name.split(" ");
+    console.log(splitedName);
+    const parsedName = `${splitedName[0]} ${splitedName[1]}`;
+    return parsedName
+  }
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -190,7 +132,7 @@ export default function PersistentDrawerLeft({component: Component, props}) {
       >
         <Toolbar>
           <IconButton
-            color="inherit"
+            color="black"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
@@ -199,8 +141,8 @@ export default function PersistentDrawerLeft({component: Component, props}) {
             <MenuIcon />
           </IconButton>
           <Logo type="black" height="40px" />
-          <Typography variant="h6" noWrap>
-            Persistent drawer
+          <Typography variant="h6" noWrap style={{color: 'black'}}>
+            Confluencia 
           </Typography>
         </Toolbar>
       </AppBar>
@@ -219,22 +161,22 @@ export default function PersistentDrawerLeft({component: Component, props}) {
           </IconButton>
         </div>
         <Divider />
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+        <List className={classes.drawerList}>
+
+        <ListItem>
+      <ListItemIcon>{
+          userData.photoURL ? 
+          <img className={classes.userPhoto} src={userData.photoURL} alt="Profile" loading="lazy"/>
+          : null
+        }</ListItemIcon>
+      <ListItemText>{handleName(userData.displayName)}</ListItemText>
+          </ListItem>
+
+          <ListItem button onClick={handleLogOut}>
+            <ListItemIcon><LogoutIcon/></ListItemIcon>
+            <ListItemText>Cerrar sesión</ListItemText>
+          </ListItem>
+          
         </List>
       </Drawer>
       <main

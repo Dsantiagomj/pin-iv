@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { Grid, makeStyles, Paper, Divider } from '@material-ui/core'
 import styled from "styled-components";
 import { format } from "date-fns";
 
@@ -6,19 +7,32 @@ import UserContext from "../../services/contexts/useUserContext";
 
 import Carousel from "../../components/carousel";
 
+
+const useStyles = makeStyles(theme => ({
+  wrapper: {
+    marginBottom: "5rem",
+    overflowY: "hidden",
+    padding: "0 1rem",
+  },
+  mainSection: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    padding: "2rem 1rem",
+  },
+  sidebar: {
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "column",
+    height: "30rem",
+    padding: "2rem 1rem",
+  },
+}));
+
 const TitleText = styled.h1`
   font-size: 1.5rem;
   margin-left: 1rem;
   max-width: 27rem;
-`;
-
-const Wrapper = styled.div`
-  align-items: flex-start;
-  display: flex;
-  padding: 0 1rem;
-  width: 100vw;
-  margin-bottom: 5rem;
-  overflow-y: hidden;
 `;
 
 const MainSection = styled.div`
@@ -27,17 +41,15 @@ const MainSection = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 0 1rem;
   padding: 2rem 1rem;
-  width: 75%;
+  width: 100%;
 `;
 const Sidebar = styled.div`
   border: solid 1px #cdcdcd;
   border-radius: 1rem;
-  margin: 0 1rem;
   height: 30rem;
   padding: 2rem 1rem;
-  width: 25%;
+  width: 100%;
 `;
 const Description = styled.div`
   font-size: 14px;
@@ -95,9 +107,14 @@ const DateWrapper = styled.p`
   text-align: right;
 `;
 
-const DashboardComponent = ({ history }) => {
+const DashboardComponent = () => {
+
+  const classes = useStyles();
+
   const { user } = useContext(UserContext);
   const { user: userData } = JSON.parse(user);
+
+  
 
   const [comment, setComment] = useState(null);
   const [commentsList, setCommentsList] = useState([]);
@@ -138,8 +155,9 @@ const DashboardComponent = ({ history }) => {
   return (
     <>
       <Carousel />
-      <Wrapper>
-        <MainSection>
+      <Grid container className={classes.wrapper} spacing={2}>
+        <Grid item xs={12} lg={8}>
+        <Paper elevation={1} className={classes.mainSection}>
           <TitleText>Economías colaborativas</TitleText>
           <Description>
             En Colombia, las economías colaborativas han surgido como una
@@ -189,18 +207,24 @@ const DashboardComponent = ({ history }) => {
               </CommentItem>
             ))}
           </CommentList>
-        </MainSection>
-        <Sidebar>
+        </Paper>
+        </Grid>
+        <Grid item xs={12} lg={4}>
+        <Paper elevation={1} className={classes.sidebar}>
           <TitleText>Artícuros relacionados</TitleText>
           {articles.map((article) => (
-            <li>
+            <>
+            <li style={{width: "100%"}}>
               <a href={article.link} target="_blank">
                 {article.title}
               </a>
             </li>
+            <Divider/>
+            </>
           ))}
-        </Sidebar>
-      </Wrapper>
+        </Paper >
+        </Grid>
+      </Grid>
     </>
   );
 };
